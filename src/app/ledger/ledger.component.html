@@ -1,0 +1,43 @@
+<div class="row justify-content-start pb-3">
+  <div class="col-8">
+    <form class="form-inline">
+      <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+    </form>
+  </div>
+
+  <div class="col-4 text-right">
+    <a routerLink="/ledger/add/expense" class="btn btn-danger">Add Expense</a>
+    <a routerLink="/ledger/add/income" class="btn btn-success">Add Income</a>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Date</th>
+          <th scope="col">Category</th>
+          <th scope="col">Amount</th>
+          <th scope="col">Note</th>
+          <th scope="col">&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of ledgers">
+          <td><b>{{ row.AccountName }}</b></td>
+          <td>{{ row.Date | date:'MM/dd/yyyy' }}</td>
+          <td>{{ row.CategoryName }}</td>
+          <td [ngClass]="{ 'text-danger': (row.Amount < 0) }">{{ row.Amount | currency:'USD':'symbol':'1.2-2' }}</td>
+          <td>{{ row.Note }}</td>
+          <td>
+            <a href="">Edit</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>

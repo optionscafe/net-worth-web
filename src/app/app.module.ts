@@ -3,7 +3,7 @@
  * @Date:   03/13/2018
  * @Email:  spicer@cloudmanic.com
  * @Last modified by:   Spicer Matthews
- * @Last modified time: 03/13/2018
+ * @Last modified time: 03/14/2018
  * @Copyright: 2018 Cloudmanic Labs, LLC. All rights reserved.
  */
 
@@ -19,9 +19,10 @@ import { Routing } from './app.routing';
 
 // Services
 import { AuthGuard } from './services/guards/auth.service';
-import { LedgersProvider} from './services/ledgers/ledgers';
+import { LedgersProvider } from './services/ledgers/ledgers';
 import { AccountsProvider } from './services/accounts/accounts';
 import { TokenInterceptor } from './services/http/token.interceptor';
+import { LedgersCategoriesProvider } from './services/ledger_categories/ledger_categories';
 
 // Components
 import { AppComponent } from './app.component';
@@ -56,6 +57,7 @@ import { LoginComponent } from './auth/login/login.component';
     AuthGuard,
     LedgersProvider,
     AccountsProvider,
+    LedgersCategoriesProvider,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

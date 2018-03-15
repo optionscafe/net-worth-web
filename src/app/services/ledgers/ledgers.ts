@@ -3,7 +3,7 @@
  * @Date:   03/13/2018
  * @Email:  spicer@cloudmanic.com
  * @Last modified by:   Spicer Matthews
- * @Last modified time: 03/13/2018
+ * @Last modified time: 03/14/2018
  * @Copyright: 2018 Cloudmanic Labs, LLC. All rights reserved.
  */
 
@@ -31,6 +31,29 @@ export class LedgersProvider {
     });
   }
 
+  //
+  // Create a new Ledger
+  //
+  create(post: LedgersPost) : Observable<Ledger> {
+    return this.http.post<Ledger>(environment.appServer + '/api/v1/ledgers', post).map(
+      (data) => { return new Ledger(data["id"], new Date(data["date"]), data["account_name"], data["category_name"], data["amount"], data["symbol"], data["note"]);
+    });
+  }
+}
+
+//
+// Ledgers Response
+//
+export class LedgersPost
+{
+  constructor(
+    public date: string,
+    public amount: number,
+    public account_id: number,
+    public category_name: string,
+    public symbol: string,
+    public note: string
+  ){}
 }
 
 /* End File */

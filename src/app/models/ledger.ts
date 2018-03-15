@@ -5,29 +5,30 @@
 //
 
 export class Ledger {
-  
+
   //
   // Construct.
   //
   constructor(
     public Id: number,
-    public Date: Date,    
+    public Date: Date,
     public AccountName: string,
     public CategoryName: string,
     public Amount: number,
-    public Note: string     
+    public Symbol: string,
+    public Note: string
   ){}
- 
+
   //
   // Build object for emitting to the app.
   //
-  public static buildForEmit(data) : Ledger[]  
+  public static buildForEmit(data) : Ledger[]
   {
     let result = [];
 
     if(! data)
     {
-      return result;      
+      return result;
     }
 
     for(let i = 0; i < data.length; i++)
@@ -38,6 +39,7 @@ export class Ledger {
         data[i].account_name,
         data[i].category_name,
         data[i].amount,
+        data[i].symbol,
         data[i].note
       ));
     }

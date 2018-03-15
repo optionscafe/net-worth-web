@@ -1,32 +1,25 @@
 <div class="row justify-content-center">
   <div class="col-md-6 jumbotron pt-4 pb-4">
-    <h3>Add Expense</h3>
+    <h3 *ngIf="type == 'expense'">Add Expense</h3>
+    <h3 *ngIf="type == 'income'">Add Income</h3>
 
-    <form>
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
       <div class="form-group">
         <label for="account">Account</label>
-        <select class="form-control" id="category">
-          <option>Robinhood</option>
-          <option>PeerStreet</option>
-          <option>Prosper</option>
-          <option>Lending Club</option>
-          <option>Tradier</option>
+        <select class="form-control" id="category" name="account" required [(ngModel)]="selectedAccount">
+          <option *ngFor="let row of accounts;" [ngValue]="row.Id">{{ row.Name }}</option>
         </select>
       </div>
 
       <div class="form-group">
         <label for="date">Date</label>
-        <input type="date" name="date" class="form-control" id="date" />
+        <input type="date" name="date" class="form-control" id="date" required ngModel />
       </div>
 
       <div class="form-group">
         <label for="category">Category</label>
-        <select class="form-control" id="category">
-          <option>Dividends</option>
-          <option>P2P Interest</option>
-          <option>Real Estate Interest</option>
-          <option>Real Estate Rent</option>
-          <option>Put Credit Spreads</option>
+        <select class="form-control" id="category" name="category" required [(ngModel)]="selectedCategory">
+          <option *ngFor="let row of categories;" [ngValue]="row.Name">{{ row.Name }}</option>
         </select>
       </div>
 
@@ -35,23 +28,29 @@
         <div class="input-group-prepend">
           <span class="input-group-text">$</span>
         </div>
-        <input type="text" class="form-control" name="amount" id="amount" />
+        <input type="text" class="form-control" name="amount" id="amount" required ngModel />
       </div>
 
       <div class="form-group mt-3">
+        <label for="symbol">Symbol</label>
+        <input type="text" name="symbol" class="form-control" id="symbol" ngModel />
+        <small class="form-text text-muted">Optional. If this ledger entry is related to a symbol please add. (ie. BAC)</small>
+      </div>
+
+      <div class="form-group">
         <label for="note">Note</label>
-        <textarea name="note" id="note" class="form-control"></textarea>
+        <textarea name="note" id="note" class="form-control" ngModel></textarea>
       </div>
 
       <div class="row">
         <div class="col">
           <p class="mt-4">
             <a routerLink="/ledger" class="text-danger">Cancel</a>
-          <p>
+            <p>
         </div>
 
         <div class="col">
-          <button type="submit" class="btn btn-primary mt-3 float-right">Submit</button>
+          <button type="submit" class="btn btn-primary mt-3 float-right" [disabled]="! f.valid">{{ submitBtn }}</button>
         </div>
       </div>
     </form>

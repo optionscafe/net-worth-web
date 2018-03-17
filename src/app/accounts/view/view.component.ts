@@ -11,7 +11,8 @@ import * as moment from 'moment';
 import { Chart } from 'chart.js';
 import { Account } from '../../models/account';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {Location} from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AccountsProvider} from '../../services/accounts/accounts';
 
 @Component({
@@ -21,13 +22,17 @@ import { AccountsProvider} from '../../services/accounts/accounts';
 
 export class ViewComponent implements OnInit 
 {
-  chart = [];
   id: number = 0;
+  action: string = "marks";
+  chart: Chart = {};
+  chartDates: string[];
+  chartMarks: number[];
+  chartBalances: number[]; 
 
   //
   // Construct
   //
-  constructor(private route: ActivatedRoute, public accountsProvider: AccountsProvider) { }
+  constructor(private location: Location, private route: ActivatedRoute, public accountsProvider: AccountsProvider) {}
 
   //
   // OnInit...
@@ -37,8 +42,82 @@ export class ViewComponent implements OnInit
     // Get account id from URL
     this.id = this.route.snapshot.params['id'];
 
+    // Get action from URL
+    this.action = this.route.snapshot.params['action'];
+
     // Load the marks for this account.
     this.getMarks();
+  }
+
+  //
+  // Set Tab.
+  //
+  setTab(action: string) : boolean
+  {
+    this.action = action;
+    //this.location.replaceState('/accounts/' + this.id + '/' + action);
+
+//console.log(this.chartBalances);
+
+    this.chart.data.labels = this.chartDates;
+    this.chart.data.datasets.splice(0, 1);
+    this.chart.data.datasets.push(this.chartBalances);
+    this.chart.update();
+
+
+      // // Setup chart.
+      // this.chart = new Chart('canvas', {
+      //   type: 'line',
+
+      //   data: {
+      //     labels: this.chartDates,
+      //     datasets: [
+      //       {
+      //         data: this.chartBalances,
+      //         pointRadius: 2,
+      //         pointHoverRadius: 5,
+      //         borderColor: '#3cba9f',
+      //         fill: false
+      //       }
+      //     ]
+      //   },
+
+      //   options: {
+
+      //     legend: {
+      //       display: false
+      //     },      
+
+      //     tooltips: {
+      //       callbacks: {
+      //         label: function(tooltipItem, data) {
+      //           return '$' + tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      //         }
+      //       }
+      //     },          
+
+      //     scales: {
+
+      //       xAxes: [{
+      //         display: true
+      //       }],
+
+      //       yAxes: [{
+      //         display: true,
+      //         ticks: {
+      //           callback: function(value, index, values) {
+      //             return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      //           }
+      //         }              
+      //       }],
+
+      //     }
+      //   }
+      // });
+
+
+
+    return false;
   }
 
   //
@@ -50,18 +129,19 @@ export class ViewComponent implements OnInit
     this.accountsProvider.getMarksByAccountId(this.id).subscribe((data) => {
 
       // Setup data for the chart.
-      let dates = data.map(res => moment(res.Date).format('M/D/YY'));
-      let marks = data.map(res => res.Balance);
+      this.chartDates = data.map(res => moment(res.Date).format('M/D/YY')).reverse();
+      this.chartMarks = data.map(res => res.PricePer).reverse();
+      this.chartBalances = data.map(res => res.Balance).reverse();
 
       // Setup chart.
       this.chart = new Chart('canvas', {
         type: 'line',
 
         data: {
-          labels: dates.reverse(),
+          labels: this.chartDates,
           datasets: [
             {
-              data: marks.reverse(),
+              data: this.chartMarks,
               pointRadius: 2,
               pointHoverRadius: 5,
               borderColor: '#3cba9f',

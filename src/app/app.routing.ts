@@ -37,7 +37,7 @@ const appRoutes: Routes = [
   { path: '', component: CoreComponent, children: [
     { path: '', component: DashboardComponent, canActivate: [ AuthGuard ] },
     { path: 'accounts', component: AccountsComponent, canActivate: [ AuthGuard ] },
-    { path: 'accounts/:id', component: AccountsViewComponent, canActivate: [ AuthGuard ] },
+    { path: 'accounts/:id/:action', component: AccountsViewComponent, canActivate: [ AuthGuard ] },
     { path: 'ledger', component: LedgerComponent, canActivate: [ AuthGuard ] },
     { path: 'ledger/add/:type', component: LedgerModifyComponent, canActivate: [ AuthGuard ] }
 

@@ -7,44 +7,46 @@
  * @Copyright: 2018 Cloudmanic Labs, LLC. All rights reserved.
  */
 
-export class Account {
+export class Account 
+{
+  Id: number;
+  Name: string;
+  AccountNumber: string;
+  Balance: number;
+  Units: number;
+  CreatedAt: Date;
+  UpdatedAt: Date;
 
   //
-  // Construct.
+  // Json to Object.
   //
-  constructor(
-    public Id: number,
-    public Name: string,
-    public AccountNumber: string,
-    public Balance: number,
-    public Units: number,
-    public CreatedAt: Date,
-    public UpdatedAt: Date
-  ){}
+  fromJson(json: Object) : Account
+  {
+    this.Id = json["id"];
+    this.Name = json["name"];
+    this.AccountNumber = json["account_number"];
+    this.Balance = json["balance"];
+    this.Units = json["units"];
+    this.CreatedAt = new Date(json["created_at"]);
+    this.UpdatedAt = new Date(json["updated_at"]);
+    return this;
+  }
 
   //
-  // Build object for emitting to the app.
+  // Build from JSON list.
   //
-  public static buildForEmit(data) : Account[]
+  fromJsonList(json: Object[]) : Account[]
   {
     let result = [];
 
-    if(! data)
+    if(! json)
     {
       return result;
     }
 
-    for(let i = 0; i < data.length; i++)
+    for(let i = 0; i < json.length; i++)
     {
-      result.push(new Account(
-        data[i].id,
-        data[i].name,
-        data[i].account_number,
-        data[i].balance,
-        data[i].units,
-        new Date(data[i].created_at),
-        new Date(data[i].updated_at)
-      ));
+      result.push(new Account().fromJson(json[i]));
     }
 
     // Return happy

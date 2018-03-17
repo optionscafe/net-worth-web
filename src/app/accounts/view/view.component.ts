@@ -23,6 +23,7 @@ import { AccountsProvider} from '../../services/accounts/accounts';
 export class ViewComponent implements OnInit 
 {
   id: number = 0;
+  account: Account;
   action: string = "marks";
   chart: Chart = {};
   chartDates: string[];
@@ -45,6 +46,9 @@ export class ViewComponent implements OnInit
 
     // Get action from URL
     this.action = this.route.snapshot.params['action'];
+
+    // Get the account
+    this.getAccount();
 
     // Load the marks for this account.
     this.getMarks();
@@ -70,6 +74,16 @@ export class ViewComponent implements OnInit
     this.chart = new Chart('canvas', config);
 
     return false;
+  }
+
+  //
+  // Get the account.
+  //
+  getAccount() 
+  {
+    this.accountsProvider.getById(this.id).subscribe((data) => {
+      this.account = data;
+    });
   }
 
   //

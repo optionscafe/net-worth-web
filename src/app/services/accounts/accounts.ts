@@ -27,18 +27,24 @@ export class AccountsProvider {
   // Get Accounts
   //
   get() : Observable<Account[]> {
-    return this.http.get<Account[]>(environment.appServer + '/api/v1/accounts').map(
-      (data) => { return Account.buildForEmit(data);
-    });
+    return this.http.get<Account[]>(environment.appServer + '/api/v1/accounts')
+                    .map((data) => { return new Account().fromJsonList(data); });
+  }
+
+  //
+  // Get Account by Id
+  //
+  getById(id: number) : Observable<Account> {
+    return this.http.get<Account>(environment.appServer + '/api/v1/accounts/' + id)
+                    .map((data) => { return new Account().fromJson(data); });
   }
 
   //
   // Get Account Marks by Account Id
   //
   getMarksByAccountId(id: number) : Observable<AccountMark[]> {
-    return this.http.get<AccountMark[]>(environment.appServer + '/api/v1/accounts/' + id + '/marks').map(
-      (data) => { return AccountMark.buildForEmit(data);
-    });
+    return this.http.get<AccountMark[]>(environment.appServer + '/api/v1/accounts/' + id + '/marks')
+                    .map((data) => { return AccountMark.buildForEmit(data); });
   }
 
 }

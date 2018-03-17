@@ -27,7 +27,8 @@ export class ViewComponent implements OnInit
   chart: Chart = {};
   chartDates: string[];
   chartMarks: number[];
-  chartBalances: number[]; 
+  chartBalances: number[];
+  chartOptions: Object = {}; 
 
   //
   // Construct
@@ -55,67 +56,18 @@ export class ViewComponent implements OnInit
   setTab(action: string) : boolean
   {
     this.action = action;
-    //this.location.replaceState('/accounts/' + this.id + '/' + action);
+    this.location.replaceState('/accounts/' + this.id + '/' + action);
 
-//console.log(this.chartBalances);
+    // Destroy chart so we can start over.
+    this.chart.destroy();
 
-    this.chart.data.labels = this.chartDates;
-    this.chart.data.datasets.splice(0, 1);
-    this.chart.data.datasets.push(this.chartBalances);
-    this.chart.update();
+    // Load data into chart options.
+    let config = this.getChartOptions();
+    config.data.labels = this.chartDates;
+    config.data.datasets[0].data = (action == 'marks') ? this.chartMarks : this.chartBalances;
 
-
-      // // Setup chart.
-      // this.chart = new Chart('canvas', {
-      //   type: 'line',
-
-      //   data: {
-      //     labels: this.chartDates,
-      //     datasets: [
-      //       {
-      //         data: this.chartBalances,
-      //         pointRadius: 2,
-      //         pointHoverRadius: 5,
-      //         borderColor: '#3cba9f',
-      //         fill: false
-      //       }
-      //     ]
-      //   },
-
-      //   options: {
-
-      //     legend: {
-      //       display: false
-      //     },      
-
-      //     tooltips: {
-      //       callbacks: {
-      //         label: function(tooltipItem, data) {
-      //           return '$' + tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      //         }
-      //       }
-      //     },          
-
-      //     scales: {
-
-      //       xAxes: [{
-      //         display: true
-      //       }],
-
-      //       yAxes: [{
-      //         display: true,
-      //         ticks: {
-      //           callback: function(value, index, values) {
-      //             return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      //           }
-      //         }              
-      //       }],
-
-      //     }
-      //   }
-      // });
-
-
+    // Setup chart.
+    this.chart = new Chart('canvas', config);
 
     return false;
   }
@@ -133,59 +85,75 @@ export class ViewComponent implements OnInit
       this.chartMarks = data.map(res => res.PricePer).reverse();
       this.chartBalances = data.map(res => res.Balance).reverse();
 
+      // Load data into chart options.
+      let config = this.getChartOptions();
+      config.data.labels = this.chartDates;
+      config.data.datasets[0].data = this.chartMarks;
+
       // Setup chart.
-      this.chart = new Chart('canvas', {
-        type: 'line',
-
-        data: {
-          labels: this.chartDates,
-          datasets: [
-            {
-              data: this.chartMarks,
-              pointRadius: 2,
-              pointHoverRadius: 5,
-              borderColor: '#3cba9f',
-              fill: false
-            }
-          ]
-        },
-
-        options: {
-
-          legend: {
-            display: false
-          },      
-
-          tooltips: {
-            callbacks: {
-              label: function(tooltipItem, data) {
-                return '$' + tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-              }
-            }
-          },          
-
-          scales: {
-
-            xAxes: [{
-              display: true
-            }],
-
-            yAxes: [{
-              display: true,
-              ticks: {
-                callback: function(value, index, values) {
-                  return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                }
-              }              
-            }],
-
-          }
-        }
-      });
+      this.chart = new Chart('canvas', config);
 
     });
   }
 
+  //
+  // Get chart options.
+  //
+  getChartOptions() : any
+  {
+    let config = {
+      type: 'line',
+
+      data: {
+        labels: [],
+        datasets: [
+          {
+            data: [],
+            pointRadius: 2,
+            pointHoverRadius: 5,
+            borderColor: '#3cba9f',
+            fill: false
+          }
+        ]
+      },
+
+      options: {
+
+        legend: {
+          display: false
+        },      
+
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+              return '$' + tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+          }
+        },          
+
+        scales: {
+
+          xAxes: [{
+            display: true
+          }],
+
+          yAxes: [{
+            display: true,
+            ticks: {
+              callback: function(value, index, values) {
+                return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              }
+            }              
+          }],
+
+        }
+      }
+    };
+
+    return config;
+  }
+
 }
+
 
 /* End File */

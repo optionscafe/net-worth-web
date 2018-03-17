@@ -28,7 +28,6 @@ import { LedgersCategoriesProvider } from './services/ledger_categories/ledger_c
 // Components
 import { AppComponent } from './app.component';
 import { AccountsComponent } from './accounts/accounts.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { CoreComponent } from './layout/core/core.component';
 import { LedgerComponent } from './ledger/ledger.component';
 import { ModifyComponent as LedgerModifyComponent } from './ledger/modify/modify.component';
@@ -40,7 +39,6 @@ import { ViewComponent as AccountsViewComponent } from './accounts/view/view.com
   declarations: [
     AppComponent,
     AccountsComponent,
-    DashboardComponent,
     CoreComponent,
     LedgerComponent,
     LedgerModifyComponent,

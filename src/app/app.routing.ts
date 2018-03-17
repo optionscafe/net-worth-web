@@ -16,9 +16,6 @@ import { CoreComponent } from './layout/core/core.component';
 // Auth
 import { LoginComponent } from './auth/login/login.component';
 
-// Dashboard
-import { DashboardComponent } from './dashboard/dashboard.component';
-
 // Accounts
 import { AccountsComponent } from './accounts/accounts.component';
 import { ViewComponent as AccountsViewComponent } from './accounts/view/view.component';
@@ -35,16 +32,15 @@ const appRoutes: Routes = [
 
   // Core App
   { path: '', component: CoreComponent, children: [
-    { path: '', component: DashboardComponent, canActivate: [ AuthGuard ] },
-    { path: 'accounts', component: AccountsComponent, canActivate: [ AuthGuard ] },
+    { path: 'accounts/:action', component: AccountsComponent, canActivate: [ AuthGuard ] },    
     { path: 'accounts/:id/:action', component: AccountsViewComponent, canActivate: [ AuthGuard ] },
     { path: 'ledger', component: LedgerComponent, canActivate: [ AuthGuard ] },
-    { path: 'ledger/add/:type', component: LedgerModifyComponent, canActivate: [ AuthGuard ] }
-
+    { path: 'ledger/add/:type', component: LedgerModifyComponent, canActivate: [ AuthGuard ] },
+    { path: '**', redirectTo: 'accounts/list' }
   ] },
 
   // Otherwise redirect to home
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: 'accounts' }
 ];
 
 

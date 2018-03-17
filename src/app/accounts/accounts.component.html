@@ -1,41 +1,65 @@
-<div class="row justify-content-start pb-3">
-  <div class="col-10">
-    <form class="form-inline">
-      <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-    </form>
-  </div>
-
-  <div class="col-2 text-right">
-    <a href="" class="btn btn-info">Add Account</a>
-  </div>
-</div>
-
 <div class="row">
-  <div class="col">
 
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Balance</th>
-          <th scope="col">Units</th>
-          <th scope="col">Updated</th>
-          <th scope="col">&nbsp;</th>
-        </tr>
-      </thead>
+  <div class="col-2">
+    <div class="nav flex-column nav-pills">
+      <a class="nav-link" [ngClass]="{ 'active': (action == 'list') }" href (click)="setTab('list')">List</a>
+      <a class="nav-link" [ngClass]="{ 'active': (action == 'marks') }" href (click)="setTab('marks')">Marks</a>
+      <a class="nav-link" [ngClass]="{ 'active': (action == 'balances') }" href (click)="setTab('balances')">Balances</a>
+    </div>
+  </div>
 
-      <tbody>
-        <tr *ngFor="let row of accounts">
-          <td><b>{{ row.Name }}</b></td>
-          <td>{{ row.Balance | currency:'USD':'symbol':'1.2-2' }}</td>
-          <td>{{ row.Units | number }}</td>
-          <td title="Created At: {{ row.CreatedAt | date:'MM/dd/yyyy' }}">{{ row.UpdatedAt | date:'MM/dd/yyyy' }}</td>
-          <td>
-            <a routerLink="/accounts/{{ row.Id }}/marks">View</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="col-9">
+
+    <div class="row pb-3" *ngIf="action == 'list'">
+      <div class="col-10">
+        <form class="form-inline">
+          <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+        </form>
+      </div>
+
+      <div class="col-2 text-right">
+        <a href="" class="btn btn-info">Add Account</a>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col" *ngIf="(action == 'marks') || (action == 'balances')">
+        <div *ngIf="chart" class="p-3 border rounded">
+          <canvas id="canvas">{{ chart }}</canvas>
+        </div>        
+      </div>
+
+      <div class="col" *ngIf="action == 'list'">
+
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Balance</th>
+              <th scope="col">Units</th>
+              <th scope="col">Updated</th>
+              <th scope="col">&nbsp;</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let row of accounts">
+              <td><b>{{ row.Name }}</b></td>
+              <td>{{ row.Balance | currency:'USD':'symbol':'1.2-2' }}</td>
+              <td>{{ row.Units | number }}</td>
+              <td title="Created At: {{ row.CreatedAt | date:'MM/dd/yyyy' }}">{{ row.UpdatedAt | date:'MM/dd/yyyy' }}</td>
+              <td>
+                <a routerLink="/accounts/{{ row.Id }}/marks">View</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
 
   </div>
+
 </div>
+

@@ -11,7 +11,7 @@ import * as moment from 'moment';
 import { Chart } from 'chart.js';
 import { Account } from '../../models/account';
 import { Component, OnInit } from '@angular/core';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountsProvider} from '../../services/accounts/accounts';
 

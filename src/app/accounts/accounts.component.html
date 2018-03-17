@@ -31,7 +31,7 @@
           <td>{{ row.Units | number }}</td>
           <td title="Created At: {{ row.CreatedAt | date:'MM/dd/yyyy' }}">{{ row.UpdatedAt | date:'MM/dd/yyyy' }}</td>
           <td>
-            <a href="">Review</a>
+            <a routerLink="/accounts/{{ row.Id }}">View</a>
           </td>
         </tr>
       </tbody>

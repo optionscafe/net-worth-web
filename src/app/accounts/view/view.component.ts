@@ -9,30 +9,35 @@
 
 import * as moment from 'moment';
 import { Chart } from 'chart.js';
-import { Account } from '../models/account';
+import { Account } from '../../models/account';
 import { Component, OnInit } from '@angular/core';
-import { AccountsProvider} from '../services/accounts/accounts';
-
+import { ActivatedRoute } from '@angular/router';
+import { AccountsProvider} from '../../services/accounts/accounts';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html'
+  selector: 'app-view',
+  templateUrl: './view.component.html'
 })
 
-export class DashboardComponent implements OnInit 
+export class ViewComponent implements OnInit 
 {
   chart = [];
+  id: number = 0;
 
   //
   // Construct
   //
-  constructor(public accountsProvider: AccountsProvider) { }
+  constructor(private route: ActivatedRoute, public accountsProvider: AccountsProvider) { }
 
   //
   // OnInit...
   //
   ngOnInit() 
   {
+    // Get account id from URL
+    this.id = this.route.snapshot.params['id'];
+
+    // Load the marks for this account.
     this.getMarks();
   }
 
@@ -42,7 +47,7 @@ export class DashboardComponent implements OnInit
   getMarks()
   {
     // Get balance data
-    this.accountsProvider.getMarksByAccountId(1).subscribe((data) => {
+    this.accountsProvider.getMarksByAccountId(this.id).subscribe((data) => {
 
       // Setup data for the chart.
       let dates = data.map(res => moment(res.Date).format('M/D/YY'));

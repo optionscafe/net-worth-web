@@ -9,6 +9,7 @@
 
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MomentModule } from 'angular2-moment';
 import { Routes, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
@@ -32,6 +33,7 @@ import { CoreComponent } from './layout/core/core.component';
 import { LedgerComponent } from './ledger/ledger.component';
 import { ModifyComponent as LedgerModifyComponent } from './ledger/modify/modify.component';
 import { LoginComponent } from './auth/login/login.component';
+import { ViewComponent as AccountsViewComponent } from './accounts/view/view.component';
 
 
 @NgModule({
@@ -42,12 +44,14 @@ import { LoginComponent } from './auth/login/login.component';
     CoreComponent,
     LedgerComponent,
     LedgerModifyComponent,
-    LoginComponent
+    LoginComponent,
+    AccountsViewComponent
   ],
 
   imports: [
     Routing,
     FormsModule,
+    MomentModule,
     BrowserModule,
     HttpClientModule,
     NgbModule.forRoot()

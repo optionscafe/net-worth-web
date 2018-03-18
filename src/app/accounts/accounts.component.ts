@@ -10,9 +10,11 @@
 import * as moment from 'moment';
 import { Chart } from 'chart.js';
 import { Location } from '@angular/common';
+import { Mark } from '../models/mark';
 import { Account } from '../models/account';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MarksProvider } from '../services/marks/marks';
 import { AccountsProvider } from '../services/accounts/accounts';
 
 @Component({
@@ -33,7 +35,7 @@ export class AccountsComponent implements OnInit
   //
   // Construct
   //
-  constructor(private location: Location, private route: ActivatedRoute, public accountsProvider: AccountsProvider) {}
+  constructor(private location: Location, private route: ActivatedRoute, public accountsProvider: AccountsProvider, public marksProvider: MarksProvider) {}
 
   //
   // OnInit...
@@ -92,7 +94,7 @@ export class AccountsComponent implements OnInit
   getMarks()
   {
     // Get balance data
-    this.accountsProvider.getMarksByAccountId(1).subscribe((data) => {
+    this.marksProvider.get().subscribe((data) => {
 
       // Setup data for the chart.
       this.chartDates = data.map(res => moment(res.Date).format('M/D/YY')).reverse();

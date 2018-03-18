@@ -20,6 +20,7 @@ import { Routing } from './app.routing';
 
 // Services
 import { AuthGuard } from './services/guards/auth.service';
+import { MarksProvider } from './services/marks/marks';
 import { LedgersProvider } from './services/ledgers/ledgers';
 import { AccountsProvider } from './services/accounts/accounts';
 import { TokenInterceptor } from './services/http/token.interceptor';
@@ -57,11 +58,13 @@ import { ViewComponent as AccountsViewComponent } from './accounts/view/view.com
 
   providers: [
     AuthGuard,
+    MarksProvider,
     LedgersProvider,
     AccountsProvider,
     LedgersCategoriesProvider,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
   ],
+  
   bootstrap: [AppComponent]
 })
 export class AppModule { }

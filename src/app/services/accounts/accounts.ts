@@ -28,7 +28,7 @@ export class AccountsProvider {
   //
   get() : Observable<Account[]> {
     return this.http.get<Account[]>(environment.appServer + '/api/v1/accounts')
-                    .map((data) => { return new Account().fromJsonList(data); });
+                    .map((data) => data.map((data) => new Account().fromJson(data)));
   }
 
   //
@@ -36,7 +36,7 @@ export class AccountsProvider {
   //
   getById(id: number) : Observable<Account> {
     return this.http.get<Account>(environment.appServer + '/api/v1/accounts/' + id)
-                    .map((data) => { return new Account().fromJson(data); });
+                    .map((data) => new Account().fromJson(data));
   }
 
   //

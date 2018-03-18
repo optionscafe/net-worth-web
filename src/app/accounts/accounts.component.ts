@@ -85,6 +85,8 @@ export class AccountsComponent implements OnInit
     // Get balance data
     this.accountsProvider.get().subscribe((data) => {
       this.accounts = data;
+
+      console.log(data);
     });
   }
 

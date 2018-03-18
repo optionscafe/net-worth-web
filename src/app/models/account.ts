@@ -31,27 +31,6 @@ export class Account
     this.UpdatedAt = new Date(json["updated_at"]);
     return this;
   }
-
-  //
-  // Build from JSON list.
-  //
-  fromJsonList(json: Object[]) : Account[]
-  {
-    let result = [];
-
-    if(! json)
-    {
-      return result;
-    }
-
-    for(let i = 0; i < json.length; i++)
-    {
-      result.push(new Account().fromJson(json[i]));
-    }
-
-    // Return happy
-    return result;
-  }
 }
 
 /* End File */
